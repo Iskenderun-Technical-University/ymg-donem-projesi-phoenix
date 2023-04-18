@@ -6,6 +6,20 @@ ________________
 CRUD : Create, Read, Update, Delete
 ![]()
 __________________
+
+* ### Installation
+
+* ##### To Install MongoDB Database
+    1. Download Docker Desktop or Docker Engine from official site(https://docs.docker.com/engine/install/)
+    2. After installation open terminal and type following commands:
+        ```
+        docker pull mongo
+        docker run --name mongodb -dp 27017:27017 mongo
+        ```
+    3. You can start using application.
+
+_______
+
 * #####  **Password Manager Application Features**
     - ***Save password***
     - ***Update password***
