@@ -2,6 +2,7 @@ package com.phoenix.Phoenix.Password.Manager.service.register;
 
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
 import com.phoenix.Phoenix.Password.Manager.service.User;
+import com.phoenix.Phoenix.Password.Manager.service.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Service
 class DefaultRegistrationService implements RegistrationService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     public DefaultRegistrationService(UserRepository userRepository){
@@ -27,7 +28,7 @@ class DefaultRegistrationService implements RegistrationService{
                 .setId(UUID.randomUUID().toString())
                 .setEmail(request.getEmail())
                 .setName(request.getName())
-                .setPasswordHash(request.getPassword() + "hashed")
+                .setPasswordHash(PasswordEncoder.encode(request.getPassword()))
                 .setEnabled(true)
                 .setVerified(true);
 
