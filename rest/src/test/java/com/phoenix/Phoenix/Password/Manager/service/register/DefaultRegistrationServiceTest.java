@@ -2,9 +2,8 @@ package com.phoenix.Phoenix.Password.Manager.service.register;
 
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
 import com.phoenix.Phoenix.Password.Manager.service.User;
-import com.phoenix.Phoenix.Password.Manager.service.register.DefaultRegistrationService;
-import com.phoenix.Phoenix.Password.Manager.service.register.RegistrationResult;
-import com.phoenix.Phoenix.Password.Manager.service.register.RegistrationServiceRequest;
+import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
+import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -64,8 +63,9 @@ class DefaultRegistrationServiceTest {
                     .when(userRepository)
                     .getByEmail(request.getEmail());
 
-            final RegistrationResult result = service.requestRegistration(request);
-            assertEquals(RegistrationResult.CONFLICT,result);
+            final CreationResult<?> result = service.requestRegistration(request);
+            assertFalse(result.isSuccess());
+            assertEquals(OperationFailureReason.CONFLICT,result.getReason());
         }
 
         @Test
@@ -74,8 +74,8 @@ class DefaultRegistrationServiceTest {
                     .when(userRepository)
                     .getByEmail(request.getEmail());
 
-            RegistrationResult result = service.requestRegistration(request);
-            assertEquals(RegistrationResult.SUCCESS,result);
+            CreationResult<?> result = service.requestRegistration(request);
+            assertTrue(result.isSuccess());
 
             Mockito.verify(userRepository)
                     .save(userArgumentCaptor.capture());

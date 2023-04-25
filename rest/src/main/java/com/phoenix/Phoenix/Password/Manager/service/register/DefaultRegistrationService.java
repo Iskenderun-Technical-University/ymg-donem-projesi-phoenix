@@ -3,8 +3,11 @@ package com.phoenix.Phoenix.Password.Manager.service.register;
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
 import com.phoenix.Phoenix.Password.Manager.service.User;
 import com.phoenix.Phoenix.Password.Manager.service.password.PasswordEncoder;
+import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
+import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,10 +22,10 @@ class DefaultRegistrationService implements RegistrationService{
     }
 
     @Override
-    public RegistrationResult requestRegistration(RegistrationServiceRequest request) {
+    public CreationResult<?> requestRegistration(RegistrationServiceRequest request) {
         Optional<User> userOptional = userRepository.getByEmail(request.getEmail());
         if(userOptional.isPresent()){
-            return RegistrationResult.CONFLICT;
+            return CreationResult.<User>failed(OperationFailureReason.CONFLICT,"Email has already registered.");
         }
         final User newUser = new User()
                 .setId(UUID.randomUUID().toString())
@@ -33,6 +36,6 @@ class DefaultRegistrationService implements RegistrationService{
                 .setVerified(true);
 
         userRepository.save(newUser);
-        return RegistrationResult.SUCCESS;
+        return CreationResult.success(Map.of("userId",newUser.getId()));
     }
 }
