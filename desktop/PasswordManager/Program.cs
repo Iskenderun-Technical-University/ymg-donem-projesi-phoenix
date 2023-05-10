@@ -1,3 +1,5 @@
+using PasswordManager.Services;
+
 namespace PasswordManager
 {
     internal static class Program
@@ -5,8 +7,9 @@ namespace PasswordManager
         [STAThread]
         static void Main()
         {
+            UserService userService = new UserService();
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginPage());
+            Application.Run(new LoginPage(userService));
         }
     }
 }

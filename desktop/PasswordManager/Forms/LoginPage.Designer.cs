@@ -1,4 +1,6 @@
-﻿namespace PasswordManager
+﻿using PasswordManager.Services;
+
+namespace PasswordManager
 {
     partial class LoginPage
     {
@@ -20,6 +22,7 @@
             base.Dispose(disposing);
         }
 
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -28,7 +31,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginPage));
             panel1 = new Panel();
+            pictureBox1 = new PictureBox();
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
@@ -36,8 +41,12 @@
             panel2 = new Panel();
             pm_description = new Label();
             pm_header = new Label();
+            panel3 = new Panel();
             label1 = new Label();
             login_side = new Panel();
+            visible = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
             label10 = new Label();
             panel7 = new Panel();
             panel6 = new Panel();
@@ -51,18 +60,22 @@
             password = new TextBox();
             panel_email = new Panel();
             email = new TextBox();
-            panel3 = new Panel();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel3.SuspendLayout();
             login_side.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)visible).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             login_btn.SuspendLayout();
             panel_pass.SuspendLayout();
             panel_email.SuspendLayout();
-            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(23, 129, 179);
+            panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(label7);
             panel1.Controls.Add(label6);
             panel1.Controls.Add(label5);
@@ -74,6 +87,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(434, 564);
             panel1.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources.logo;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(99, 43);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(250, 250);
+            pictureBox1.TabIndex = 9;
+            pictureBox1.TabStop = false;
             // 
             // label7
             // 
@@ -148,6 +171,18 @@
             pm_header.TabIndex = 0;
             pm_header.Text = "Welcome to the";
             // 
+            // panel3
+            // 
+            panel3.BackColor = Color.Aqua;
+            panel3.Controls.Add(label1);
+            panel3.Location = new Point(0, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(956, 35);
+            panel3.TabIndex = 4;
+            panel3.MouseDown += panel_tab_MouseDown;
+            panel3.MouseMove += panel_tab_MouseMove;
+            panel3.MouseUp += panel_tab_MouseUp;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -163,7 +198,9 @@
             // login_side
             // 
             login_side.BackColor = Color.FromArgb(210, 217, 215);
-            login_side.Controls.Add(panel3);
+            login_side.Controls.Add(visible);
+            login_side.Controls.Add(pictureBox3);
+            login_side.Controls.Add(pictureBox2);
             login_side.Controls.Add(label10);
             login_side.Controls.Add(panel7);
             login_side.Controls.Add(panel6);
@@ -174,10 +211,45 @@
             login_side.Controls.Add(login_btn);
             login_side.Controls.Add(panel_pass);
             login_side.Controls.Add(panel_email);
+            login_side.ImeMode = ImeMode.Off;
             login_side.Location = new Point(427, 0);
             login_side.Name = "login_side";
-            login_side.Size = new Size(528, 564);
+            login_side.Size = new Size(529, 564);
             login_side.TabIndex = 3;
+            // 
+            // visible
+            // 
+            visible.BackgroundImage = (Image)resources.GetObject("visible.BackgroundImage");
+            visible.BackgroundImageLayout = ImageLayout.Stretch;
+            visible.Location = new Point(415, 255);
+            visible.Name = "visible";
+            visible.Size = new Size(15, 14);
+            visible.TabIndex = 13;
+            visible.TabStop = false;
+            visible.Visible = false;
+            visible.Click += visible_Click;
+            visible.MouseDown += visible_MouseDown;
+            visible.MouseUp += visible_MouseUp;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
+            pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox3.Location = new Point(82, 237);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(49, 47);
+            pictureBox3.TabIndex = 12;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackgroundImage = Properties.Resources.email;
+            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox2.Location = new Point(82, 169);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(49, 47);
+            pictureBox2.TabIndex = 11;
+            pictureBox2.TabStop = false;
             // 
             // label10
             // 
@@ -239,6 +311,7 @@
             linkLabel2.TabIndex = 6;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Register now!";
+            linkLabel2.LinkClicked += linkLabel2_LinkClicked;
             // 
             // linkLabel1
             // 
@@ -294,6 +367,7 @@
             password.Size = new Size(269, 26);
             password.TabIndex = 0;
             password.UseSystemPasswordChar = true;
+            password.TextChanged += password_TextChanged;
             // 
             // panel_email
             // 
@@ -308,22 +382,11 @@
             // 
             email.BorderStyle = BorderStyle.None;
             email.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            email.Location = new Point(4, 9);
+            email.Location = new Point(5, 10);
             email.Name = "email";
             email.PlaceholderText = "Email";
             email.Size = new Size(269, 26);
-            email.TabIndex = 0;
-            // 
-            // panel3
-            // 
-            panel3.Controls.Add(label1);
-            panel3.Location = new Point(-427, 0);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(955, 37);
-            panel3.TabIndex = 4;
-            panel3.MouseDown += panel_tab_MouseDown;
-            panel3.MouseMove += panel_tab_MouseMove;
-            panel3.MouseUp += panel_tab_MouseUp;
+            email.TabIndex = 1;
             // 
             // LoginPage
             // 
@@ -331,25 +394,31 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(955, 564);
-            Controls.Add(panel1);
+            Controls.Add(panel3);
             Controls.Add(login_side);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LoginPage";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Password Manager";
             Load += Form1_Load;
-            Paint += LoginPage_Paint;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             login_side.ResumeLayout(false);
             login_side.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)visible).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             login_btn.ResumeLayout(false);
             login_btn.PerformLayout();
             panel_pass.ResumeLayout(false);
             panel_pass.PerformLayout();
             panel_email.ResumeLayout(false);
             panel_email.PerformLayout();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -367,7 +436,6 @@
         private Label label4;
         private Panel panel_pass;
         private TextBox password;
-        private TextBox email;
         private Panel login_btn;
         private Label login;
         private Panel panel6;
@@ -379,5 +447,10 @@
         private Label label7;
         private Label label10;
         private Panel panel3;
+        private PictureBox pictureBox1;
+        private TextBox email;
+        private PictureBox visible;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
     }
 }
