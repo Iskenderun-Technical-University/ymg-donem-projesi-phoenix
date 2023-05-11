@@ -23,7 +23,7 @@ namespace PasswordManager.Services
                 name = request.getName(),
             };
 
-            var response = HttpRequestHandlerService.POST(data, "http://localhost:8080","api/register");
+            var response = HttpRequestHandlerService.POST(data, "http://localhost:8080","api/auth/register");
             return response;
 
         }
