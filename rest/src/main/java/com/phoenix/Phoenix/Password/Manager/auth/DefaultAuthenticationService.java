@@ -4,6 +4,8 @@ import com.phoenix.Phoenix.Password.Manager.config.JwtService;
 import com.phoenix.Phoenix.Password.Manager.controller.AuthenticationRequest;
 import com.phoenix.Phoenix.Password.Manager.repository.AccountVerificationTokenRepository;
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
+import com.phoenix.Phoenix.Password.Manager.support.email.EmailBuilder;
+import com.phoenix.Phoenix.Password.Manager.support.email.EmailSender;
 import com.phoenix.Phoenix.Password.Manager.support.result.AuthenticationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
@@ -27,13 +29,16 @@ public class DefaultAuthenticationService implements AuthenticationService{
 
     private final JwtService jwtService;
 
+    private final EmailSender emailSender;
+
 
     private final AccountVerificationTokenRepository tokenRepository;
 
-    public DefaultAuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,AccountVerificationTokenRepository tokenRepository) {
+    public DefaultAuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, EmailSender emailSender, AccountVerificationTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.emailSender = emailSender;
         this.tokenRepository = tokenRepository;
     }
 
@@ -55,6 +60,7 @@ public class DefaultAuthenticationService implements AuthenticationService{
         userRepository.save(user);
         AccountVerificationToken token = AccountVerificationToken.generateToken(user.getId());
         tokenRepository.save(token);
+        emailSender.send(user.getEmail(), EmailBuilder.buildEmail(user.getName(),token.getToken()));
         return CreationResult.success(Map.of("message","Instructions have been sent to email."));
     }
 
