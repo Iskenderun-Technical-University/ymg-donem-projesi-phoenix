@@ -11,4 +11,8 @@ public interface UserRepository {
     void save(User user);
 
     Optional<User> getByEmail(@Email String email);
+
+    Optional<User> findByEmail(String username);
+
+    Optional<User> getById(String userId);
 }

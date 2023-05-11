@@ -1,4 +1,4 @@
-package com.phoenix.Phoenix.Password.Manager.service.register;
+package com.phoenix.Phoenix.Password.Manager.auth;
 
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
