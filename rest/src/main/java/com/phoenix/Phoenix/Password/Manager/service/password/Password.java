@@ -1,0 +1,69 @@
+package com.phoenix.Phoenix.Password.Manager.service.password;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
+public class Password {
+    @Id
+    private String id;  //
+    private String username;
+    @Indexed(name="title")
+    private String title;
+    private String notes;
+    private String url;
+    private String password;
+
+    public String getId() {
+        return id;
+    }
+
+    public Password setId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Password setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Password setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public Password setNotes(String notes) {
+        this.notes = notes;
+        return this;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Password setUrl(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Password setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+}
