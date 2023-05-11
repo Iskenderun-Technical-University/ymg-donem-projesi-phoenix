@@ -17,17 +17,10 @@ namespace PasswordManager.Forms
         private bool _dragging = false;
         private Point _offset;
         private Point _startPoint = new Point(0, 0);
-        private UserService userService;
 
         public RegisterPage()
         {
             InitializeComponent();
-        }
-
-        public RegisterPage(UserService userService)
-        {
-            InitializeComponent();
-            this.userService = userService;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -58,7 +51,7 @@ namespace PasswordManager.Forms
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            LoginPage loginPage = new LoginPage(userService);
+            LoginPage loginPage = new LoginPage();
             loginPage.Show();
             this.Hide();
         }
@@ -94,8 +87,17 @@ namespace PasswordManager.Forms
             else
             {
                 RegistrationRequest registrationRequest = new RegistrationRequest(name.Text, email.Text, password.Text);
-                var response = userService.Register(registrationRequest);
-                MessageBox.Show(response.ToString());
+                var response = UserService.Register(registrationRequest);
+                if (!response.isResultSuccess())
+                {
+                    MessageBox.Show("Registration failed." + response.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(response.Message());
+                    AccountVerificationPage verificationPage = new AccountVerificationPage();
+                    verificationPage.Show();
+                }
             }
 
         }

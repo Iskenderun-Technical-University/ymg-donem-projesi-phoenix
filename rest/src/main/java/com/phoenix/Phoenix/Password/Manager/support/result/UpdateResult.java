@@ -11,6 +11,11 @@ public class UpdateResult {
         return new UpdateResult()
                 .setSuccess(true);
     }
+    public static UpdateResult success(String message){
+        return new UpdateResult()
+                .setMessage(message)
+                .setSuccess(true);
+    }
 
     public static UpdateResult failed(OperationFailureReason reason){
         return new UpdateResult()

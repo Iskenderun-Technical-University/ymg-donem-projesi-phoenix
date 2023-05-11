@@ -1,3 +1,4 @@
+using PasswordManager.Forms;
 using PasswordManager.Services;
 
 namespace PasswordManager
@@ -7,9 +8,8 @@ namespace PasswordManager
         [STAThread]
         static void Main()
         {
-            UserService userService = new UserService();
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginPage(userService));
+            Application.Run(new LoginPage());
         }
     }
 }
