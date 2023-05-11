@@ -18,7 +18,7 @@ public class BusinessResultHandler{
             ResponseEntity<String> result1 = handleFailureReason(result.getReason(), result.getMessage());
             if (result1 != null) return result1;
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(result.getMessage(),HttpStatus.OK);
     }
 
     private static ResponseEntity<String> handleFailureReason(OperationFailureReason result, String result1) {

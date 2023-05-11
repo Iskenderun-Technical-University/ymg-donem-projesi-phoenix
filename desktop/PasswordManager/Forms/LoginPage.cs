@@ -9,15 +9,10 @@ namespace PasswordManager
         private bool _dragging = false;
         private Point _offset;
         private Point _startPoint = new Point(0, 0);
-        private UserService userService;
+
         public LoginPage()
         {
             InitializeComponent();
-        }
-        public LoginPage(UserService userService)
-        {
-            InitializeComponent();
-            this.userService = userService;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -31,7 +26,17 @@ namespace PasswordManager
 
         private void login_btn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Login button clicked.");
+            var response = UserService.Login(email.Text,password.Text);
+            if (!response.isResultSuccess())
+            {
+                MessageBox.Show("Invalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                PasswordManagerMain main = new PasswordManagerMain();
+                main.Show();
+                this.Hide();
+            }
         }
 
         private void panel_tab_MouseDown(object sender, MouseEventArgs e)
@@ -57,7 +62,7 @@ namespace PasswordManager
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            RegisterPage registerPage = new RegisterPage(userService);
+            RegisterPage registerPage = new RegisterPage();
             registerPage.Show();
             this.Hide();
         }

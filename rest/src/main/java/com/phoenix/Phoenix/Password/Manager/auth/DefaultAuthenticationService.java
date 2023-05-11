@@ -53,11 +53,9 @@ public class DefaultAuthenticationService implements AuthenticationService{
                 .setRole(Role.USER);
 
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
         AccountVerificationToken token = AccountVerificationToken.generateToken(user.getId());
         tokenRepository.save(token);
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse().setToken(jwtToken);
-        return CreationResult.success(Map.of("token",authenticationResponse.getToken()));
+        return CreationResult.success(Map.of("message","Instructions have been sent to email."));
     }
 
     @Override
@@ -88,6 +86,6 @@ public class DefaultAuthenticationService implements AuthenticationService{
         User user = userRepository.getById(token.getUserId()).orElseThrow();
         user.setVerified(true);
         userRepository.save(user);
-        return UpdateResult.success();
+        return UpdateResult.success("{\"message\" : \"Account has been verificated.\"}");
     }
 }
