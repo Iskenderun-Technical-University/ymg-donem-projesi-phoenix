@@ -11,4 +11,5 @@ public interface PasswordRepository {
 
     Optional<Password> getByTitle(String title);
 
+    Optional<Password> getById(String id);
 }

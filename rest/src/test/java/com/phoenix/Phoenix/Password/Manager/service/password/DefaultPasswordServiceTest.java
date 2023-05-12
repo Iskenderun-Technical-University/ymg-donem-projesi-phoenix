@@ -5,7 +5,6 @@ import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -83,6 +82,47 @@ class DefaultPasswordServiceTest {
               assertTrue(result.isSuccess());
               Mockito.verify(passwordRepository).save(password);
 
+
+        }
+
+
+
+    }
+
+    @Nested
+    class UpdatePassword
+    {
+        /*
+        - invalid ıd
+        - already used title
+        - success
+         */
+        @Test
+        void invalidId()
+        {
+            Mockito.doReturn(Optional.empty())
+                    .when(passwordRepository)
+                    .getById("id");
+
+            final CreationResult<?> result = defaultPasswordService.updatePassword("id",new Password());
+
+            assertFalse(result.isSuccess());
+            assertEquals(OperationFailureReason.PRECONDITION_FAILED, result.getReason());
+        }
+
+        @Test
+        void titleUsedAlready()
+        {
+            Password password = new Password()
+                    .setId("ID")
+                    .setPassword("melis1234")
+                    .setUsername("melis")
+                    .setTitle("title");
+
+            Mockito.doReturn(Optional.of(password)).when(passwordRepository).getByTitle(password.getTitle());
+            final CreationResult<?> result = defaultPasswordService.updatePassword("id",password);
+            assertFalse(result.isSuccess());
+            assertEquals(OperationFailureReason.CONFLICT, result.getReason());
 
         }
 
