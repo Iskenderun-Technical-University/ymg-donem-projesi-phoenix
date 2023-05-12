@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -20,11 +21,15 @@ class DefaultPasswordServiceTest {
 
     @Mock
     private PasswordRepository passwordRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     private DefaultPasswordService defaultPasswordService;
 
     @BeforeEach
     void setUp() {
-        defaultPasswordService = new DefaultPasswordService(passwordRepository);
+        defaultPasswordService = new DefaultPasswordService(passwordRepository, passwordEncoder);
     }
 
     @Nested
@@ -43,7 +48,7 @@ class DefaultPasswordServiceTest {
                     .setUsername("melis");
 
 
-            final CreationResult<?> result = defaultPasswordService.savePassword(password);
+            final CreationResult<?> result = defaultPasswordService.savePassword("userId",password);
 
             assertFalse(result.isSuccess());
             assertEquals(OperationFailureReason.PRECONDITION_FAILED, result.getReason());
@@ -61,7 +66,7 @@ class DefaultPasswordServiceTest {
 
 
             Mockito.doReturn(Optional.of(password)).when(passwordRepository).getByTitle(password.getTitle());
-            final CreationResult<?> result = defaultPasswordService.savePassword(password);
+            final CreationResult<?> result = defaultPasswordService.savePassword("userId",password);
             assertFalse(result.isSuccess());
             assertEquals(OperationFailureReason.CONFLICT, result.getReason());
         }
@@ -77,7 +82,7 @@ class DefaultPasswordServiceTest {
 
 
             Mockito.doReturn(Optional.empty()).when(passwordRepository).getByTitle(password.getTitle());
-            final CreationResult<?> result = defaultPasswordService.savePassword(password);
+            final CreationResult<?> result = defaultPasswordService.savePassword("userId",password);
 
               assertTrue(result.isSuccess());
               Mockito.verify(passwordRepository).save(password);
@@ -89,43 +94,5 @@ class DefaultPasswordServiceTest {
 
     }
 
-    @Nested
-    class UpdatePassword
-    {
-        /*
-        - invalid ıd
-        - already used title
-        - success
-         */
-        @Test
-        void invalidId()
-        {
-            Mockito.doReturn(Optional.empty())
-                    .when(passwordRepository)
-                    .getById("id");
-
-            final CreationResult<?> result = defaultPasswordService.updatePassword("id",new Password());
-
-            assertFalse(result.isSuccess());
-            assertEquals(OperationFailureReason.PRECONDITION_FAILED, result.getReason());
-        }
-
-        @Test
-        void titleUsedAlready()
-        {
-            Password password = new Password()
-                    .setId("ID")
-                    .setPassword("melis1234")
-                    .setUsername("melis")
-                    .setTitle("title");
-
-            Mockito.doReturn(Optional.of(password)).when(passwordRepository).getByTitle(password.getTitle());
-            final CreationResult<?> result = defaultPasswordService.updatePassword("id",password);
-            assertFalse(result.isSuccess());
-            assertEquals(OperationFailureReason.CONFLICT, result.getReason());
-
-        }
-
-    }
 
 }

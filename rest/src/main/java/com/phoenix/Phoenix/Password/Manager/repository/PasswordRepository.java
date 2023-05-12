@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface PasswordRepository {
     void save(Password password);
 
-    Optional<Password> getByTitle(String title);
+    Optional<Password> getByTitleAndUserId(String title,String userId);
 
     Optional<Password> getById(String id);
+
+    Optional<Password> getByTitle(String title);
 }
