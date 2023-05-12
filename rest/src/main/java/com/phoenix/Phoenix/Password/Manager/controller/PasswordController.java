@@ -23,4 +23,10 @@ public class PasswordController {
         CreationResult<?> result=passwordService.savePassword(password);
         return BusinessResultHandler.handleResult(result);
     }
+    @PostMapping
+    public ResponseEntity<?> updatePassword(String passwordId,Password password)
+    {
+        CreationResult<?> result=passwordService.updatePassword(passwordId,password);
+        return BusinessResultHandler.handleResult(result);
+    }
 }
