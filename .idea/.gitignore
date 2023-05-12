@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/desktop/PasswordManager/.vs/
+/desktop/PasswordManager/bin/
+/desktop/PasswordManager/obj/
