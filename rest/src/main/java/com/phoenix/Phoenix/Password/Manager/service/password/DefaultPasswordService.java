@@ -1,5 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.service.password;
 
+import com.mongodb.client.result.DeleteResult;
 import com.phoenix.Phoenix.Password.Manager.repository.PasswordRepository;
 import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
@@ -70,6 +71,18 @@ public class DefaultPasswordService implements PasswordService{
         List<Password> passwords=passwordRepository.listByUserId(userId);
         return passwords;
     }
+
+    @Override
+    public DeleteResult deletePassword(String userId) {
+        Optional<Password> passwordOptional=passwordRepository.getByUserId(userId);
+        if(passwordOptional.isEmpty())
+        {
+            throw new IllegalArgumentException("Not found userId");
+        }
+       DeleteResult deleteResult= passwordRepository.deleteById(userId);
+        return deleteResult;
+    }
+
     private boolean isPasswordTitleSame(String oldTitle, String newTitle) {
         return oldTitle.equals(newTitle);
     }

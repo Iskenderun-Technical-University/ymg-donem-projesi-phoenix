@@ -1,5 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.controller;
 
+import com.mongodb.client.result.DeleteResult;
 import com.phoenix.Phoenix.Password.Manager.service.password.Password;
 import com.phoenix.Phoenix.Password.Manager.service.password.PasswordService;
 import com.phoenix.Phoenix.Password.Manager.support.result.BusinessResultHandler;
@@ -37,4 +38,10 @@ public class PasswordController {
         List<Password> passwords = passwordService.listPassword(userId);
         return ResponseEntity.ok(passwords);
     }
+    @DeleteMapping
+    public DeleteResult deleteById(@PathVariable String userId)
+    {
+        return  passwordService.deletePassword(userId);
+    }
+
 }

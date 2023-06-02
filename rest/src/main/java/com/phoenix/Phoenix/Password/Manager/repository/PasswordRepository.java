@@ -1,5 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.repository;
 
+import com.mongodb.client.result.DeleteResult;
 import com.phoenix.Phoenix.Password.Manager.service.password.Password;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,4 +20,6 @@ public interface PasswordRepository {
     List<Password> listByUserId(String userId);
 
     Optional<Password> getByUserId(String userId);
+
+    DeleteResult deleteById(String Userid);
 }
