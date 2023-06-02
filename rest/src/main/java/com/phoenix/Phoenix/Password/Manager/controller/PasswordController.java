@@ -8,6 +8,8 @@ import com.phoenix.Phoenix.Password.Manager.support.result.UpdateResult;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/me/password")
 public class PasswordController {
@@ -29,5 +31,10 @@ public class PasswordController {
     {
         UpdateResult result=passwordService.updatePassword(password.getUserId(), password.getId(),password);
         return BusinessResultHandler.handleResult(result);
+    }
+    @PostMapping
+    public ResponseEntity<List<Password>> listPasswordsByUserId(@PathVariable String userId) {
+        List<Password> passwords = passwordService.listPassword(userId);
+        return ResponseEntity.ok(passwords);
     }
 }

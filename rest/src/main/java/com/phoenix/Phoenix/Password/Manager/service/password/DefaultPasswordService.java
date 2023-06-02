@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DefaultPasswordService implements PasswordService{
@@ -61,7 +59,17 @@ public class DefaultPasswordService implements PasswordService{
         passwordRepository.save(updatedPassword);
         return UpdateResult.success();
     }
+    @Override
+    public List<Password> listPassword(String userId) {
 
+        Optional<Password> passwordOptional=passwordRepository.getByUserId(userId);
+        if(passwordOptional.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+        List<Password> passwords=passwordRepository.listByUserId(userId);
+        return passwords;
+    }
     private boolean isPasswordTitleSame(String oldTitle, String newTitle) {
         return oldTitle.equals(newTitle);
     }
