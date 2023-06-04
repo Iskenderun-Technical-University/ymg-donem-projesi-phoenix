@@ -61,7 +61,7 @@ namespace PasswordManager.Services
                 key = text
             };
 
-             var response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/verify");
+            var response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/verify");
             JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
             return jsonObject["message"].ToString();
         }
@@ -85,6 +85,31 @@ namespace PasswordManager.Services
             {
                 return AuthResult.builder(false, response);
             }
+        }
+
+        internal static string RequestPasswordReset(string text)
+        {
+            object data = new
+            {
+                email = text
+            };
+
+            string response = HttpRequestHandlerService.POST(data, "http://localhost:8080", "api/auth/reset-password");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
+        }
+
+        internal static string ResetPassword(string code, string password)
+        {
+            object data = new
+            {
+                code = code,
+                password = password
+            };
+
+            string response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/reset-password");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
         }
     }
 }

@@ -100,6 +100,7 @@
             // 
             pictureBox2.BackgroundImage = Properties.Resources.visible;
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox2.Cursor = Cursors.Hand;
             pictureBox2.Location = new Point(426, 375);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(24, 21);
@@ -112,6 +113,7 @@
             // 
             pictureBox1.BackgroundImage = Properties.Resources.visible;
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Location = new Point(426, 271);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(24, 21);

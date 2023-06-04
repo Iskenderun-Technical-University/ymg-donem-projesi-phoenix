@@ -4,7 +4,8 @@ public enum OperationFailureReason {
     CONFLICT("conflict"),
     UNAUTHORIZED("unauthorized"),
     ALREADY_DONE("already_done"),
-    PRECONDITION_FAILED("precondition_failed");
+    PRECONDITION_FAILED("precondition_failed"),
+    NOT_FOUND("not-found");
 
     private final String value;
 

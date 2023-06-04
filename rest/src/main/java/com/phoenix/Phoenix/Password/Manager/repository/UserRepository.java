@@ -1,6 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.repository;
 
-import com.phoenix.Phoenix.Password.Manager.service.User;
+import com.phoenix.Phoenix.Password.Manager.service.user.User;
 import jakarta.validation.constraints.Email;
 import org.springframework.validation.annotation.Validated;
 

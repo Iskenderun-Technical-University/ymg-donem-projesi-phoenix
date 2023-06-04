@@ -1,5 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.support.email;
 
 public interface EmailSender {
-    void send(String to,String email);
+    void sendForAccountVerification(String to, String email);
+    void sendForResetPassword(String to, String email);
 }

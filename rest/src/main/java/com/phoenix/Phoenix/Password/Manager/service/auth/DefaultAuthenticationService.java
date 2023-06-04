@@ -5,7 +5,7 @@ import com.phoenix.Phoenix.Password.Manager.config.JwtService;
 import com.phoenix.Phoenix.Password.Manager.controller.AuthenticationRequest;
 import com.phoenix.Phoenix.Password.Manager.repository.AccountVerificationTokenRepository;
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
-import com.phoenix.Phoenix.Password.Manager.service.User;
+import com.phoenix.Phoenix.Password.Manager.service.user.User;
 import com.phoenix.Phoenix.Password.Manager.support.email.EmailBuilder;
 import com.phoenix.Phoenix.Password.Manager.support.email.EmailSender;
 import com.phoenix.Phoenix.Password.Manager.support.result.AuthenticationResult;
@@ -55,13 +55,15 @@ public class DefaultAuthenticationService implements AuthenticationService {
                 .setName(request.getName())
                 .setEmail(request.getEmail())
                 .setVerified(false)
+                .setEnabled(true)
+                .setIsLocked(false)
                 .setPasswordHash(passwordEncoder.encode(request.getPassword()))
                 .setRole(Role.USER);
 
         userRepository.save(user);
         AccountVerificationToken token = AccountVerificationToken.generateToken(user.getId());
         tokenRepository.save(token);
-        emailSender.send(user.getEmail(), EmailBuilder.buildEmail(user.getName(),token.getToken()));
+        emailSender.sendForAccountVerification(user.getEmail(), EmailBuilder.buildEmailForAccountVerification(user.getName(),token.getToken()));
         return CreationResult.success(Map.of("message","Instructions have been sent to email."));
     }
 
@@ -93,6 +95,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
         User user = userRepository.getById(token.getUserId()).orElseThrow();
         user.setVerified(true);
         userRepository.save(user);
+        tokenRepository.invalidateToken(key);
         return UpdateResult.success("{\"message\" : \"Account has been verificated.\"}");
     }
 }

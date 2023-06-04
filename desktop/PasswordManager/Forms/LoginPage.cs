@@ -99,5 +99,11 @@ namespace PasswordManager
             AccountVerificationPage verificationPage = new AccountVerificationPage();
             verificationPage.Show();
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ForgotPasswordRequest request = new ForgotPasswordRequest();
+            request.Show();
+        }
     }
 }

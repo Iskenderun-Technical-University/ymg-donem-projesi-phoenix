@@ -61,6 +61,7 @@ namespace PasswordManager.Forms
             {
                 string response = UserService.ResetPassword(code.Text, password1.Text);
                 MessageBox.Show(response);
+                this.Hide();
             }
             else
             {

@@ -21,13 +21,29 @@ public class EmailService implements EmailSender{
 
     @Override
     @Async
-    public void send(String to, String email) {
+    public void sendForAccountVerification(String to, String email) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,"utf-8");
             mimeMessageHelper.setText(email,true);
             mimeMessageHelper.setTo(to);
             mimeMessageHelper.setSubject("Confirmation Code");
+            mimeMessageHelper.setFrom("no-reply@phoenix.com");
+            javaMailSender.send(mimeMessage);
+        }catch (MessagingException e){
+            logger.error("Failed to send email!");
+        }
+    }
+
+    @Override
+    @Async
+    public void sendForResetPassword(String to, String email) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,"utf-8");
+            mimeMessageHelper.setText(email,true);
+            mimeMessageHelper.setTo(to);
+            mimeMessageHelper.setSubject("Password Reset Code");
             mimeMessageHelper.setFrom("no-reply@phoenix.com");
             javaMailSender.send(mimeMessage);
         }catch (MessagingException e){
