@@ -17,7 +17,7 @@ public interface PasswordService {
 
     List<Password> listPassword(String userId);
 
-    DeleteResult deletePassword(String userId);
+   void deletePassword(String passwordId);
 
 
 }

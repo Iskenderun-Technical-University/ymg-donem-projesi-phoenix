@@ -17,9 +17,9 @@ public interface PasswordRepository {
 
     Optional<Password> getByTitle(String title);
 
-    List<Password> listByUserId(String userId);
+    List<Password> findByUserId(String userId);
 
     Optional<Password> getByUserId(String userId);
 
-    DeleteResult deleteById(String Userid);
+    void deleteById(String passwordId);
 }
