@@ -5,7 +5,9 @@ import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Password {
     @Id
-    private String id;  //
+    private String id;
+
+    private String userId;
     private String username;
     @Indexed(name="title")
     private String title;
@@ -19,6 +21,15 @@ public class Password {
 
     public Password setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Password setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 
