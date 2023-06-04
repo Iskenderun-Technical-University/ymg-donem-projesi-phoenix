@@ -60,6 +60,7 @@ namespace PasswordManager
             password = new TextBox();
             panel_email = new Panel();
             email = new TextBox();
+            linkLabel3 = new LinkLabel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
@@ -198,6 +199,7 @@ namespace PasswordManager
             // login_side
             // 
             login_side.BackColor = Color.FromArgb(210, 217, 215);
+            login_side.Controls.Add(linkLabel3);
             login_side.Controls.Add(visible);
             login_side.Controls.Add(pictureBox3);
             login_side.Controls.Add(pictureBox2);
@@ -284,7 +286,7 @@ namespace PasswordManager
             label9.BackColor = Color.FromArgb(210, 217, 215);
             label9.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.FromArgb(23, 129, 179);
-            label9.Location = new Point(261, 428);
+            label9.Location = new Point(260, 429);
             label9.Name = "label9";
             label9.Size = new Size(24, 20);
             label9.TabIndex = 8;
@@ -388,6 +390,18 @@ namespace PasswordManager
             email.Size = new Size(269, 26);
             email.TabIndex = 1;
             // 
+            // linkLabel3
+            // 
+            linkLabel3.AutoSize = true;
+            linkLabel3.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabel3.Location = new Point(217, 467);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(104, 20);
+            linkLabel3.TabIndex = 14;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Verify Account";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
+            // 
             // LoginPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -452,5 +466,6 @@ namespace PasswordManager
         private PictureBox visible;
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
+        private LinkLabel linkLabel3;
     }
 }

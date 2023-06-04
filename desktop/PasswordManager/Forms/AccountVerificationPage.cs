@@ -69,7 +69,16 @@ namespace PasswordManager.Forms
         {
             string codeText = code.Text;
             string response = UserService.VerifyAccount(codeText);
-            MessageBox.Show(response);
+            if (response.Contains("success"))
+            {
+                MessageBox.Show(response, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show(response,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            
         }
     }
 }

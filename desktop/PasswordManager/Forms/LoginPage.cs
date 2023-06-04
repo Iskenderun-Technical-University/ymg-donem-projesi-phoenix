@@ -26,7 +26,7 @@ namespace PasswordManager
 
         private void login_btn_Click(object sender, EventArgs e)
         {
-            var response = UserService.Login(email.Text,password.Text);
+            var response = UserService.Login(email.Text, password.Text);
             if (!response.isResultSuccess())
             {
                 MessageBox.Show("Invalid credentials", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -92,6 +92,12 @@ namespace PasswordManager
         private void visible_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            AccountVerificationPage verificationPage = new AccountVerificationPage();
+            verificationPage.Show();
         }
     }
 }
