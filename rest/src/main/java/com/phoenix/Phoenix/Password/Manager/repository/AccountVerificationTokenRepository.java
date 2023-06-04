@@ -8,4 +8,6 @@ public interface AccountVerificationTokenRepository {
     void save(AccountVerificationToken token);
 
     Optional<AccountVerificationToken> getByToken(String key);
+
+    void invalidateToken(String key);
 }

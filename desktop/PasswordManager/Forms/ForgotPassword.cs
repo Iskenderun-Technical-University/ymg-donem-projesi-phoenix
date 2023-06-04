@@ -11,18 +11,18 @@ using System.Windows.Forms;
 
 namespace PasswordManager.Forms
 {
-    internal partial class AccountVerificationPage : Form
+    public partial class ForgotPassword : Form
     {
 
         private bool _dragging = false;
         private Point _offset;
         private Point _startPoint = new Point(0, 0);
 
-
-        public AccountVerificationPage()
+        public ForgotPassword()
         {
             InitializeComponent();
         }
+
 
         private void panel_tab_MouseDown(object sender, MouseEventArgs e)
         {
@@ -45,40 +45,48 @@ namespace PasswordManager.Forms
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void ForgotPasswor_Load(object sender, EventArgs e)
         {
-            if (timer.Value <= 119)
-            {
-                timer_text.Text = (120 - timer.Value).ToString();
-                timer.Value += 1;
-            }
-            else
-            {
-                this.Hide();
-            }
-
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
             this.Hide();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void reset_password_Click(object sender, EventArgs e)
         {
-            string codeText = code.Text;
-            string response = UserService.VerifyAccount(codeText);
-            if (response.Contains("verificated"))
+            if (password1.Text.Equals(password_r.Text))
             {
-                MessageBox.Show(response, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string response = UserService.ResetPassword(code.Text, password1.Text);
+                MessageBox.Show(response);
                 this.Hide();
             }
             else
             {
-                MessageBox.Show(response,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Passwords must be same", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            password1.UseSystemPasswordChar = false;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            password1.UseSystemPasswordChar = true;
+        }
+
+        private void pictureBox2_MouseDown(object sender, MouseEventArgs e)
+        {
+            password_r.UseSystemPasswordChar = false;
+        }
+
+        private void pictureBox2_MouseUp(object sender, MouseEventArgs e)
+        {
+            password_r.UseSystemPasswordChar = true;
         }
     }
 }

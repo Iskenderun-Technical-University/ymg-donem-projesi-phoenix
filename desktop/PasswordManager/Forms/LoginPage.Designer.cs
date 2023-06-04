@@ -44,6 +44,7 @@ namespace PasswordManager
             panel3 = new Panel();
             label1 = new Label();
             login_side = new Panel();
+            linkLabel3 = new LinkLabel();
             visible = new PictureBox();
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -198,6 +199,7 @@ namespace PasswordManager
             // login_side
             // 
             login_side.BackColor = Color.FromArgb(210, 217, 215);
+            login_side.Controls.Add(linkLabel3);
             login_side.Controls.Add(visible);
             login_side.Controls.Add(pictureBox3);
             login_side.Controls.Add(pictureBox2);
@@ -217,10 +219,23 @@ namespace PasswordManager
             login_side.Size = new Size(529, 564);
             login_side.TabIndex = 3;
             // 
+            // linkLabel3
+            // 
+            linkLabel3.AutoSize = true;
+            linkLabel3.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+            linkLabel3.Location = new Point(217, 467);
+            linkLabel3.Name = "linkLabel3";
+            linkLabel3.Size = new Size(104, 20);
+            linkLabel3.TabIndex = 14;
+            linkLabel3.TabStop = true;
+            linkLabel3.Text = "Verify Account";
+            linkLabel3.LinkClicked += linkLabel3_LinkClicked;
+            // 
             // visible
             // 
             visible.BackgroundImage = (Image)resources.GetObject("visible.BackgroundImage");
             visible.BackgroundImageLayout = ImageLayout.Stretch;
+            visible.Cursor = Cursors.Hand;
             visible.Location = new Point(415, 255);
             visible.Name = "visible";
             visible.Size = new Size(15, 14);
@@ -284,7 +299,7 @@ namespace PasswordManager
             label9.BackColor = Color.FromArgb(210, 217, 215);
             label9.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.FromArgb(23, 129, 179);
-            label9.Location = new Point(261, 428);
+            label9.Location = new Point(260, 429);
             label9.Name = "label9";
             label9.Size = new Size(24, 20);
             label9.TabIndex = 8;
@@ -323,6 +338,7 @@ namespace PasswordManager
             linkLabel1.TabIndex = 5;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Forgot Password?";
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
             // 
             // login_btn
             // 
@@ -452,5 +468,6 @@ namespace PasswordManager
         private PictureBox visible;
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
+        private LinkLabel linkLabel3;
     }
 }

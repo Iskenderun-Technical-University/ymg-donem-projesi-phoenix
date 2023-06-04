@@ -1,4 +1,4 @@
-package com.phoenix.Phoenix.Password.Manager.service;
+package com.phoenix.Phoenix.Password.Manager.service.user;
 
 import com.phoenix.Phoenix.Password.Manager.support.user.Role;
 import jakarta.validation.constraints.Email;
