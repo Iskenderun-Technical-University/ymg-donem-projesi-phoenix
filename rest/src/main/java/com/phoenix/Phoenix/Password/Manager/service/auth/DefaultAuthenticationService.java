@@ -1,9 +1,11 @@
-package com.phoenix.Phoenix.Password.Manager.auth;
+package com.phoenix.Phoenix.Password.Manager.service.auth;
 
+import com.phoenix.Phoenix.Password.Manager.auth.RegistrationServiceRequest;
 import com.phoenix.Phoenix.Password.Manager.config.JwtService;
 import com.phoenix.Phoenix.Password.Manager.controller.AuthenticationRequest;
 import com.phoenix.Phoenix.Password.Manager.repository.AccountVerificationTokenRepository;
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
+import com.phoenix.Phoenix.Password.Manager.service.User;
 import com.phoenix.Phoenix.Password.Manager.support.email.EmailBuilder;
 import com.phoenix.Phoenix.Password.Manager.support.email.EmailSender;
 import com.phoenix.Phoenix.Password.Manager.support.result.AuthenticationResult;
@@ -14,14 +16,13 @@ import com.phoenix.Phoenix.Password.Manager.support.token.AccountVerificationTok
 import com.phoenix.Phoenix.Password.Manager.support.user.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.phoenix.Phoenix.Password.Manager.service.User;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class DefaultAuthenticationService implements AuthenticationService{
+public class DefaultAuthenticationService implements AuthenticationService {
 
     private final UserRepository userRepository;
 

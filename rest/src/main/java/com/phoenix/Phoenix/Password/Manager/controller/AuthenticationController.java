@@ -1,7 +1,7 @@
 package com.phoenix.Phoenix.Password.Manager.controller;
 
 
-import com.phoenix.Phoenix.Password.Manager.auth.AuthenticationService;
+import com.phoenix.Phoenix.Password.Manager.service.auth.AuthenticationService;
 import com.phoenix.Phoenix.Password.Manager.support.result.BusinessResultHandler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
