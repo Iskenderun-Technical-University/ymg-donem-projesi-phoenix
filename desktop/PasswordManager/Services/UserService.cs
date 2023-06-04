@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -25,11 +27,12 @@ namespace PasswordManager.Services
                 name = request.getName(),
             };
 
-            var response = HttpRequestHandlerService.POST(data, "http://localhost:8080","api/auth/register");
+            string response = HttpRequestHandlerService.POST(data, "http://localhost:8080","api/auth/register");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
 
             if (response.Contains("message"))
             {
-                return RegistrationResult.builder(true,response);
+                return RegistrationResult.builder(true, jsonObject["message"].ToString());
             }
             else
             {
@@ -46,7 +49,8 @@ namespace PasswordManager.Services
 
         private static string getTokenFromResponse(string response)
         {
-            string token = response.Substring(10, response.Length - 12);
+            JObject jsonObject = JObject.Parse(response);
+            string token = jsonObject["token"].ToString();
             return token;
         }
 
@@ -57,8 +61,9 @@ namespace PasswordManager.Services
                 key = text
             };
 
-             var response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/verify");
-             return response;
+            var response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/verify");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
         }
 
         internal static AuthResult Login(string _email, string _password)
@@ -80,6 +85,31 @@ namespace PasswordManager.Services
             {
                 return AuthResult.builder(false, response);
             }
+        }
+
+        internal static string RequestPasswordReset(string text)
+        {
+            object data = new
+            {
+                email = text
+            };
+
+            string response = HttpRequestHandlerService.POST(data, "http://localhost:8080", "api/auth/reset-password");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
+        }
+
+        internal static string ResetPassword(string code, string password)
+        {
+            object data = new
+            {
+                code = code,
+                password = password
+            };
+
+            string response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/reset-password");
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
         }
     }
 }

@@ -1,9 +1,13 @@
-package com.phoenix.Phoenix.Password.Manager.auth;
+package com.phoenix.Phoenix.Password.Manager.service.auth;
 
+import com.phoenix.Phoenix.Password.Manager.auth.RegistrationServiceRequest;
 import com.phoenix.Phoenix.Password.Manager.config.JwtService;
 import com.phoenix.Phoenix.Password.Manager.controller.AuthenticationRequest;
 import com.phoenix.Phoenix.Password.Manager.repository.AccountVerificationTokenRepository;
 import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
+import com.phoenix.Phoenix.Password.Manager.service.user.User;
+import com.phoenix.Phoenix.Password.Manager.support.email.EmailBuilder;
+import com.phoenix.Phoenix.Password.Manager.support.email.EmailSender;
 import com.phoenix.Phoenix.Password.Manager.support.result.AuthenticationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
@@ -12,14 +16,13 @@ import com.phoenix.Phoenix.Password.Manager.support.token.AccountVerificationTok
 import com.phoenix.Phoenix.Password.Manager.support.user.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.phoenix.Phoenix.Password.Manager.service.User;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class DefaultAuthenticationService implements AuthenticationService{
+public class DefaultAuthenticationService implements AuthenticationService {
 
     private final UserRepository userRepository;
 
@@ -27,13 +30,16 @@ public class DefaultAuthenticationService implements AuthenticationService{
 
     private final JwtService jwtService;
 
+    private final EmailSender emailSender;
+
 
     private final AccountVerificationTokenRepository tokenRepository;
 
-    public DefaultAuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,AccountVerificationTokenRepository tokenRepository) {
+    public DefaultAuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, EmailSender emailSender, AccountVerificationTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.emailSender = emailSender;
         this.tokenRepository = tokenRepository;
     }
 
@@ -49,12 +55,15 @@ public class DefaultAuthenticationService implements AuthenticationService{
                 .setName(request.getName())
                 .setEmail(request.getEmail())
                 .setVerified(false)
+                .setEnabled(true)
+                .setIsLocked(false)
                 .setPasswordHash(passwordEncoder.encode(request.getPassword()))
                 .setRole(Role.USER);
 
         userRepository.save(user);
         AccountVerificationToken token = AccountVerificationToken.generateToken(user.getId());
         tokenRepository.save(token);
+        emailSender.sendForAccountVerification(user.getEmail(), EmailBuilder.buildEmailForAccountVerification(user.getName(),token.getToken()));
         return CreationResult.success(Map.of("message","Instructions have been sent to email."));
     }
 
@@ -86,6 +95,7 @@ public class DefaultAuthenticationService implements AuthenticationService{
         User user = userRepository.getById(token.getUserId()).orElseThrow();
         user.setVerified(true);
         userRepository.save(user);
+        tokenRepository.invalidateToken(key);
         return UpdateResult.success("{\"message\" : \"Account has been verificated.\"}");
     }
 }

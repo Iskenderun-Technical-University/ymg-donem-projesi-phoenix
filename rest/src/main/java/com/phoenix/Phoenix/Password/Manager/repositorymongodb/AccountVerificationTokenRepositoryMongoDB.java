@@ -6,4 +6,11 @@ import org.springframework.data.repository.Repository;
 
 @org.springframework.stereotype.Repository
 public interface AccountVerificationTokenRepositoryMongoDB extends AccountVerificationTokenRepository, Repository<AccountVerificationToken,String> {
+    @Override
+    default void invalidateToken(String key){
+        this.deleteById(key);
+    }
+
+    void deleteById(String id);
+
 }
