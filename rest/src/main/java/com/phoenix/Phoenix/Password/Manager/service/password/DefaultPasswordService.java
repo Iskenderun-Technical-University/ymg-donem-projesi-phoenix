@@ -1,5 +1,6 @@
 package com.phoenix.Phoenix.Password.Manager.service.password;
 
+import com.mongodb.client.result.DeleteResult;
 import com.phoenix.Phoenix.Password.Manager.repository.PasswordRepository;
 import com.phoenix.Phoenix.Password.Manager.support.result.CreationResult;
 import com.phoenix.Phoenix.Password.Manager.support.result.OperationFailureReason;
@@ -9,9 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class DefaultPasswordService implements PasswordService{
@@ -60,6 +59,26 @@ public class DefaultPasswordService implements PasswordService{
         final Password updatedPassword=replacePasswordFields(oldPassword,newPassword);
         passwordRepository.save(updatedPassword);
         return UpdateResult.success();
+    }
+    @Override
+    public List<Password> listPassword(String userId) {
+
+        Optional<Password> passwordOptional=passwordRepository.getByUserId(userId);
+        if(passwordOptional.isEmpty())
+        {
+            return Collections.emptyList();
+        }
+        List<Password> passwords=passwordRepository.findByUserId(userId);
+        return passwords;
+    }
+
+    @Override
+    public void deletePassword(String passwordId) {
+        Optional<Password> passwordOptional=passwordRepository.getByUserId(passwordId);
+        if(passwordOptional.isEmpty()) {
+            throw new IllegalArgumentException("Not found userId");
+        }
+        passwordRepository.deleteById(passwordId);
     }
 
     private boolean isPasswordTitleSame(String oldTitle, String newTitle) {
