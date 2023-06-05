@@ -47,7 +47,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
     public CreationResult<Map<String,String>> register(RegistrationServiceRequest request) {
         Optional<User> userOptional = userRepository.getByEmail(request.getEmail());
         if(userOptional.isPresent()){
-            return CreationResult.failed(OperationFailureReason.CONFLICT,"Email has already registered!");
+            return CreationResult.failed(OperationFailureReason.CONFLICT,"{\"message\" : \"Email has already registered!\"}");
         }
 
         User user = new User()
@@ -71,12 +71,12 @@ public class DefaultAuthenticationService implements AuthenticationService {
     public AuthenticationResult<Map<String,String>> authenticate(AuthenticationRequest request){
         Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
         if(userOptional.isEmpty()){
-            return AuthenticationResult.failed(OperationFailureReason.PRECONDITION_FAILED,"User not found!");
+            return AuthenticationResult.failed(OperationFailureReason.PRECONDITION_FAILED,"{\"message\" : \"User not found!\"}");
         }
         User user = userOptional.get();
         boolean isPasswordMatches = passwordEncoder.matches(request.getPassword(),user.getPasswordHash());
         if(!isPasswordMatches){
-            return AuthenticationResult.failed(OperationFailureReason.UNAUTHORIZED,"Invalid credentials");
+            return AuthenticationResult.failed(OperationFailureReason.UNAUTHORIZED,"{\"message\" : \"Invalıd credentials!\"}");
         }
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResult.success(Map.of("token",jwtToken));
@@ -86,11 +86,11 @@ public class DefaultAuthenticationService implements AuthenticationService {
     public UpdateResult verifyAccount(String key){
         Optional<AccountVerificationToken> tokenOptional = tokenRepository.getByToken(key);
         if(tokenOptional.isEmpty()){
-            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"Invalid token!");
+            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"{\"message\" : \"Invalid Token!\"}");
         }
         AccountVerificationToken token = tokenOptional.get();
         if(token.isExpired()){
-            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"Invalid token!");
+            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"{\"message\" : \"Invalid Token!\"}");
         }
         User user = userRepository.getById(token.getUserId()).orElseThrow();
         user.setVerified(true);

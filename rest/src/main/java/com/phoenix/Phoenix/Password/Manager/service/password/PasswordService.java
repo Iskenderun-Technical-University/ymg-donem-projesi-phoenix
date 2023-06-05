@@ -19,6 +19,6 @@ public interface PasswordService {
    void deletePassword(String userId,String passwordId);
 
 
-    Password getPasswordById(String userId, String passwordId,boolean reveal);
+    Password getPasswordById(String userId, String passwordId);
 }
 

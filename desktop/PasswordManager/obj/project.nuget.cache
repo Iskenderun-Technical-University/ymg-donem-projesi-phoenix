@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EbxYwSQTHlKOzcWfqzuztJPRBB1a5/qob1+3h7CVV72OeGdeWyZD4yw64xtiken1G//aMEzgdmtVMfyY0kSgyw==",
+  "dgSpecHash": "9X1wZ9WwBKLqmaraHpzBJEzOx0JPtgFnGDC5/iGR3e3YsXo4DXFBchYuZBg0w4hkKZskgFb7WhYP3btR5Mubpg==",
   "success": true,
-  "projectFilePath": "D:\\Phoenix - Password Manager\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
+  "projectFilePath": "D:\\Phoenix - Password Manager\\phoenix\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\root\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\root\\.nuget\\packages\\microsoft.aspnet.webapi.core\\5.2.9\\microsoft.aspnet.webapi.core.5.2.9.nupkg.sha512",
