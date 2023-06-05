@@ -4713,11 +4713,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Phoenix - Password Manager\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
+      "projectUniqueName": "D:\\Phoenix - Password Manager\\phoenix\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
       "projectName": "PasswordManager",
-      "projectPath": "D:\\Phoenix - Password Manager\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
+      "projectPath": "D:\\Phoenix - Password Manager\\phoenix\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\PasswordManager.csproj",
       "packagesPath": "C:\\Users\\root\\.nuget\\packages\\",
-      "outputPath": "D:\\Phoenix - Password Manager\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\obj\\",
+      "outputPath": "D:\\Phoenix - Password Manager\\phoenix\\ymg-donem-projesi-phoenix\\desktop\\PasswordManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
