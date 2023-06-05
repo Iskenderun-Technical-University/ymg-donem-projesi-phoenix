@@ -9,6 +9,17 @@ CRUD : Create, Read, Update, Delete
 __________________
 
 * ### Installation
+_____________
+#### Backend
+* ##### You need to install Maven first.
+    * ##### To Install Maven
+    [You can follow these steps.](https://www.baeldung.com/install-maven-on-windows-linux-mac)
+
+* ##### This apps running on JDK-17 
+    * ##### To Install JDK-17
+    You can install [Eclipse Temurin-17](https://adoptium.net/temurin/releases/)
+
+* ##### Open IDE and Run Maven Build
 
 * ##### To Install MongoDB Database
     1. Download Docker Desktop or Docker Engine from official site(https://docs.docker.com/engine/install/)
@@ -19,13 +30,31 @@ __________________
         ```
     3. You can start using application.
 
+* ##### To Install MailDev Server
+    [You can follow these steps](https://devnote.tech/2021/08/maildev-docker-mail-server-on-your-local-environment/)
+_______________
+#### Desktop App
+* ##### You should have installed [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/)
 _______
+
+### Endpoints
+
+```https://localhost:8080/api/auth/register```
+```https://localhost:8080/api/auth/login```
+```https://localhost:8080/api/auth/verify```
+```https://localhost:8080/api/auth/reset-password```
+```https://localhost:8080/api/me/password```
+
+
+__________
+
 
 * #####  **Password Manager Application Features**
     - ***Save password***
     - ***Update password***
     - ***Delete password***
     - ***View password***
+    - ***Generate Password***
  ![]()
 _________________
 
