@@ -1,5 +1,7 @@
 package com.phoenix.Phoenix.Password.Manager.config;
 
+import com.phoenix.Phoenix.Password.Manager.repository.UserRepository;
+import com.phoenix.Phoenix.Password.Manager.service.user.UserSession;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,13 +20,16 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService){
+    JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService, UserRepository userRepository){
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    private final UserRepository userRepository;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -36,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String userEmail;
             if(authHeader == null || !authHeader.startsWith("Bearer ")){
                 filterChain.doFilter(request,response);
-                return;
+                return ;
             }
 
             jwt = authHeader.substring(7);
@@ -55,6 +60,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
+            UserSession.setUserEmail(userEmail);
+            String userId = userRepository.getByEmail(userEmail).get().getId();
+            UserSession.setUserId(userId);
             filterChain.doFilter(request,response);
     }
+
+
 }
