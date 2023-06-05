@@ -23,19 +23,19 @@ public class DefaultPasswordService implements PasswordService{
     public CreationResult<?> savePassword(String userId,Password password) {
         if(ObjectUtils.isEmpty(password.getTitle()))
         {
-            return CreationResult.failed(OperationFailureReason.PRECONDITION_FAILED,"Title can not be empty");
+            return CreationResult.failed(OperationFailureReason.PRECONDITION_FAILED,"{\"message\" : \"Title can't be empty.\"}");
         }
         Optional<Password> passwordOptional=passwordRepository.getByTitleAndUserId(password.getTitle(),userId);
         if(passwordOptional.isPresent())
         {
-            return CreationResult.failed(OperationFailureReason.CONFLICT,"Title is not unique");
+            return CreationResult.failed(OperationFailureReason.CONFLICT,"{\"message\" : \"Title is not unique.\"}");
         }
 
         password.setId(UUID.randomUUID().toString());
         password.setUserId(userId);
         passwordRepository.save(password);
 
-        return CreationResult.success(Map.of("id",password.getId()));
+        return CreationResult.success(Map.of("message","Password saved successfully. Id : " + password.getId()));
     }
 
     @Override
@@ -44,17 +44,17 @@ public class DefaultPasswordService implements PasswordService{
         Optional<Password> passwordOptional=passwordRepository.getById(passwordId);
         if(passwordOptional.isEmpty())
         {
-            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"Invalid id");
+            return UpdateResult.failed(OperationFailureReason.PRECONDITION_FAILED,"{\"message\" : \"Invalid id\"}");
         }
          final Password oldPassword= passwordOptional.get();
         if(passwordRepository.getByTitleAndUserId(newPassword.getTitle(),userId).isPresent() && !isPasswordTitleSame(oldPassword.getTitle(),newPassword.getTitle()))
         {
-            return UpdateResult.failed(OperationFailureReason.CONFLICT,"Title is already used");
+            return UpdateResult.failed(OperationFailureReason.CONFLICT,"{\"message\" : \"Title already used.\"}");
         }
 
         final Password updatedPassword=replacePasswordFields(oldPassword,newPassword);
         passwordRepository.save(updatedPassword);
-        return UpdateResult.success();
+        return UpdateResult.success("{\"message\" : \"Password updated successfully.\"}");
     }
     @Override
     public List<Password>  listPassword(String userId) {
@@ -62,9 +62,6 @@ public class DefaultPasswordService implements PasswordService{
         List<Password> passwords=passwordRepository.findByUserId(userId);
         if(passwords.isEmpty()){
             return Collections.emptyList();
-        }
-        for(Password p : passwords){
-            p.setPassword("*".repeat(p.getPassword().length()));
         }
         return passwords;
     }
@@ -83,19 +80,14 @@ public class DefaultPasswordService implements PasswordService{
     }
 
     @Override
-    public Password getPasswordById(String userId, String passwordId,boolean reveal) {
+    public Password getPasswordById(String userId, String passwordId) {
         final Optional<Password> passwordOptional = passwordRepository.getById(passwordId);
         if(passwordOptional.isEmpty()){
             return null;
         }
         final Password password = passwordOptional.get();
         if(password.getUserId().equals(userId)){
-            if(reveal){
                return new Password(password);
-            }else{
-                return new Password(password).setPassword("*".repeat(password.getPassword().length()));
-            }
-
         }else{
             return null;
         }

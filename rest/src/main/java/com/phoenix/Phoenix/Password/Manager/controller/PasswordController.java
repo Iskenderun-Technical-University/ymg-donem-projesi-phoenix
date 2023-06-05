@@ -40,8 +40,8 @@ public class PasswordController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Password> getPassword(@PathVariable("id") String passwordId,@RequestParam(required = false) boolean reveal){
-        Password password = passwordService.getPasswordById(UserSession.getUserId(),passwordId,reveal);
+    public ResponseEntity<Password> getPassword(@PathVariable("id") String passwordId){
+        Password password = passwordService.getPasswordById(UserSession.getUserId(),passwordId);
         if(password == null){
             return ResponseEntity.notFound().build();
         }

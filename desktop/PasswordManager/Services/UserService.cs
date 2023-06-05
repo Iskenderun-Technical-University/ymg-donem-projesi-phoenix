@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.ApplicationServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PasswordManager.Data_Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,11 @@ namespace PasswordManager.Services
     internal class UserService
     {
         private static string bearerToken;
+
+        private static string UPPER_CASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private static string LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
+        private static string NUMS = "1234567890";
+        private static string SPECIAL = "!@#$%&*()./\\<>?_+{}";
 
         internal static RegistrationResult Register(RegistrationRequest request)
         {
@@ -110,6 +116,83 @@ namespace PasswordManager.Services
             string response = HttpRequestHandlerService.PUT(data, "http://localhost:8080", "api/auth/reset-password");
             JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
             return jsonObject["message"].ToString();
+        }
+
+        internal static List<PasswordObject> GetPasswords()
+        {
+            string response = HttpRequestHandlerService.GET("http://localhost:8080", "api/me/password",bearerToken);
+            List<PasswordObject> jsonObject = JsonConvert.DeserializeObject<List<PasswordObject>>(response);
+            return jsonObject;
+        }
+
+        internal static string SavePassword(PasswordObject password)
+        {
+            object data = new
+            {
+                title = password.Title,
+                username = password.Username,
+                password = password.Password,
+                url = password.Url,
+                notes = password.Notes
+            };
+            string response = HttpRequestHandlerService.POST(data,"http://localhost:8080", "api/me/password", bearerToken);
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
+        }
+
+        internal static string UpdatePassword(string id, PasswordObject password)
+        {
+            object data = new
+            {
+                title = password.Title,
+                username = password.Username,
+                password = password.Password,
+                url = password.Url,
+                notes = password.Notes
+            };
+            string response = HttpRequestHandlerService.POST(data, "http://localhost:8080", "api/me/password/" + id, bearerToken);
+            JObject jsonObject = JsonConvert.DeserializeObject<JObject>(response);
+            return jsonObject["message"].ToString();
+        }
+
+        internal static void DeletePassword(string id)
+        {
+            string response = HttpRequestHandlerService.DELETE("http://localhost:8080", "api/me/password/" + id, bearerToken);
+            
+        }
+
+        internal static string GeneratePassword(PasswordGenerateOptions options)
+        {
+            string generatedPassword = "";
+            List<string> passwordChars = new List<string>();
+            if(options.hasUpperCaseCharacters)
+            {
+                passwordChars.Add(UPPER_CASE);
+            }
+            if (options.hasLowerCaseCharacters)
+            {
+                passwordChars.Add(LOWER_CASE);
+            }
+            if(options.hasSpecialCharacters) {
+                passwordChars.Add(SPECIAL);
+            }
+            if (options.hasNumericCharacters)
+            {
+                passwordChars.Add(NUMS);
+            }
+
+            StringBuilder stringBuilder = new StringBuilder();
+            Random random = new Random();
+
+            for (int i = 0; i < options.length; i++)
+            {
+                string chars = passwordChars[(i % passwordChars.Count())];
+                int index = random.Next(chars.Length);
+                stringBuilder.Append(chars[index]);
+            }
+            generatedPassword = stringBuilder.ToString();
+
+            return generatedPassword;
         }
     }
 }
