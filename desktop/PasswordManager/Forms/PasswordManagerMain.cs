@@ -230,5 +230,17 @@ namespace PasswordManager.Forms
         {
             trackBar1_Scroll(sender, e);
         }
+
+        private void exit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Do you want to log out?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if(result == DialogResult.Yes)
+            {
+                LoginPage page = new LoginPage();
+                page.Show();
+                this.Hide();
+            }
+            
+        }
     }
 }

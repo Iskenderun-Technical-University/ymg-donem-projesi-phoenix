@@ -64,6 +64,7 @@
             num = new CheckBox();
             lower = new CheckBox();
             upper = new CheckBox();
+            exit = new LinkLabel();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)passwordList1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
@@ -443,12 +444,26 @@
             upper.Text = "A-Z";
             upper.UseVisualStyleBackColor = true;
             // 
+            // exit
+            // 
+            exit.AutoSize = true;
+            exit.BackColor = Color.Transparent;
+            exit.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            exit.Location = new Point(1018, 592);
+            exit.Name = "exit";
+            exit.Size = new Size(68, 20);
+            exit.TabIndex = 23;
+            exit.TabStop = true;
+            exit.Text = "Log out?";
+            exit.LinkClicked += exit_LinkClicked;
+            // 
             // PasswordManagerMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.main_frame_background;
             ClientSize = new Size(1092, 620);
+            Controls.Add(exit);
             Controls.Add(panel2);
             Controls.Add(generate);
             Controls.Add(newPassword);
@@ -514,5 +529,6 @@
         private TrackBar trackBar1;
         private Button button1;
         private Label refresh;
+        private LinkLabel exit;
     }
 }
