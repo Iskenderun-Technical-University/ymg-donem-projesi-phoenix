@@ -230,17 +230,19 @@
             save_text.Size = new Size(46, 21);
             save_text.TabIndex = 14;
             save_text.Text = "Save";
+            save_text.Click += save_btn_Click;
             // 
             // update_text
             // 
             update_text.AutoSize = true;
             update_text.BackColor = Color.Transparent;
             update_text.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            update_text.Location = new Point(22, 9);
+            update_text.Location = new Point(20, 9);
             update_text.Name = "update_text";
             update_text.Size = new Size(66, 21);
             update_text.TabIndex = 15;
             update_text.Text = "Update";
+            update_text.Click += save_btn_Click;
             // 
             // delete_text
             // 
@@ -253,6 +255,7 @@
             delete_text.Size = new Size(60, 21);
             delete_text.TabIndex = 16;
             delete_text.Text = "Delete";
+            delete_text.Click += cancel_btn_Click;
             // 
             // cancel_text
             // 
@@ -260,11 +263,12 @@
             cancel_text.BackColor = Color.Transparent;
             cancel_text.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             cancel_text.ForeColor = Color.WhiteSmoke;
-            cancel_text.Location = new Point(27, 8);
+            cancel_text.Location = new Point(24, 9);
             cancel_text.Name = "cancel_text";
             cancel_text.Size = new Size(61, 21);
             cancel_text.TabIndex = 17;
             cancel_text.Text = "Cancel";
+            cancel_text.Click += cancel_btn_Click;
             // 
             // cancel_btn
             // 
