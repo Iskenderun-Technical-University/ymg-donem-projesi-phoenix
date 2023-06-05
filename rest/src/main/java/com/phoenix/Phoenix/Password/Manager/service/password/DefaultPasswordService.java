@@ -15,10 +15,8 @@ import java.util.*;
 public class DefaultPasswordService implements PasswordService{
     private final PasswordRepository passwordRepository;
 
-    private final PasswordEncoder passwordEncoder;
-    public DefaultPasswordService(PasswordRepository passwordRepository, PasswordEncoder passwordEncoder) {
+    public DefaultPasswordService(PasswordRepository passwordRepository) {
         this.passwordRepository=passwordRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,7 +32,6 @@ public class DefaultPasswordService implements PasswordService{
         }
 
         password.setId(UUID.randomUUID().toString());
-        password.setPassword(passwordEncoder.encode(password.getPassword()));
         password.setUserId(userId);
         passwordRepository.save(password);
 
@@ -60,24 +57,48 @@ public class DefaultPasswordService implements PasswordService{
         return UpdateResult.success();
     }
     @Override
-    public List<Password> listPassword(String userId) {
+    public List<Password>  listPassword(String userId) {
 
-        Optional<Password> passwordOptional=passwordRepository.getByUserId(userId);
-        if(passwordOptional.isEmpty())
-        {
+        List<Password> passwords=passwordRepository.findByUserId(userId);
+        if(passwords.isEmpty()){
             return Collections.emptyList();
         }
-        List<Password> passwords=passwordRepository.findByUserId(userId);
+        for(Password p : passwords){
+            p.setPassword("*".repeat(p.getPassword().length()));
+        }
         return passwords;
     }
 
     @Override
-    public void deletePassword(String passwordId) {
-        Optional<Password> passwordOptional=passwordRepository.getByUserId(passwordId);
+    public void deletePassword(String userId,String passwordId) {
+        final Optional<Password> passwordOptional=passwordRepository.getById(passwordId);
         if(passwordOptional.isEmpty()) {
-            throw new IllegalArgumentException("Not found userId");
+            return;
         }
-        passwordRepository.deleteById(passwordId);
+        final Password password = passwordOptional.get();
+        if(password.getUserId().equals(userId)){
+            passwordRepository.deleteById(passwordId);
+        }
+
+    }
+
+    @Override
+    public Password getPasswordById(String userId, String passwordId,boolean reveal) {
+        final Optional<Password> passwordOptional = passwordRepository.getById(passwordId);
+        if(passwordOptional.isEmpty()){
+            return null;
+        }
+        final Password password = passwordOptional.get();
+        if(password.getUserId().equals(userId)){
+            if(reveal){
+               return new Password(password);
+            }else{
+                return new Password(password).setPassword("*".repeat(password.getPassword().length()));
+            }
+
+        }else{
+            return null;
+        }
     }
 
     private boolean isPasswordTitleSame(String oldTitle, String newTitle) {
@@ -106,10 +127,6 @@ public class DefaultPasswordService implements PasswordService{
         {
             newPassword.setPassword(old.getPassword());
         }
-        else
-        {
-             newPassword.setPassword(passwordEncoder.encode(newPassword.getPassword()));
-        }
-        return newPassword.setId(old.getId());
+        return newPassword.setId(old.getId()).setUserId(old.getUserId());
     }
 }

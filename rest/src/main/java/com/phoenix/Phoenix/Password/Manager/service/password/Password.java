@@ -15,6 +15,18 @@ public class Password {
     private String url;
     private String password;
 
+    public Password(Password p){
+        this.id = p.id;
+        this.userId = p.userId;
+        this.username = p.username;
+        this.password = p.password;
+        this.title = p.title;
+        this.notes = p.notes;
+        this.url = p.url;
+    }
+
+    public Password(){}
+
     public String getId() {
         return id;
     }
@@ -77,4 +89,6 @@ public class Password {
         this.password = password;
         return this;
     }
+
+
 }

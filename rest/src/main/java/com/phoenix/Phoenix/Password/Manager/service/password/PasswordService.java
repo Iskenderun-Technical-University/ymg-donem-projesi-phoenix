@@ -16,8 +16,9 @@ public interface PasswordService {
 
     List<Password> listPassword(String userId);
 
-   void deletePassword(String passwordId);
+   void deletePassword(String userId,String passwordId);
 
 
+    Password getPasswordById(String userId, String passwordId,boolean reveal);
 }
 
